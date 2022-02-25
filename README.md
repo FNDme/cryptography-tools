@@ -132,4 +132,4 @@ Por favor, asegúrese de actualizar las pruebas según corresponda.
 Por favor, si encuentra algún error, haga uso del apartado de errores encontrados [Github Issues](https://github.com/FNDme/cryptography-tools/issues) y trataré de encargarme de ello lo antes prosible.
 
 ## Créditos
-Este código fuente ha sido desarrollado por [Gabriel Luis Freitas](github.com/FNDme), actual estudiante de Ingeniería Informática en la Universidad de La Laguna para la asignatura de [Seguridad en Sistemas Informáticos](https://www.ull.es/apps/guias/guias/view_guide_course/2122/139263523/)
+Este código fuente ha sido desarrollado por [Gabriel Luis Freitas](https://github.com/FNDme/), actual estudiante de Ingeniería Informática en la Universidad de La Laguna para la asignatura de [Seguridad en Sistemas Informáticos](https://www.ull.es/apps/guias/guias/view_guide_course/2122/139263523/)
