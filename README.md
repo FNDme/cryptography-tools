@@ -1,3 +1,4 @@
+<br>
 # Recopilatorio de herramientas de cifrado
 Esta aplicación es un conjunto de diferentes cifrados, tanto clásicos como modernos, enfocados a la entrada y salida de texto. Entre los cifrados incluidos esta el cifrado Atbash, el cifrado de Vigenère, el cifrado de Vernam o el cifrado RC4.
 
