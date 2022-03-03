@@ -10,6 +10,12 @@ def txt_to_bytes(txt):
 def bytes_to_txt(bytes):
     return ''.join(chr(i) for i in bytes)
 
+def int_to_bin(number):
+    return '{0:08b}'.format(number, 'b')
+
+def bin_to_int(bin):
+    return int(bin, 2)
+
 def main():
     while True:
         print("""

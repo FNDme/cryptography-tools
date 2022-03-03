@@ -444,7 +444,7 @@ def GUI_RC4(mode):
         RC4outputBytes.delete("1.0", END)
         RC4outputBytes.config(state=DISABLED)
         return
-    output = RC4(keySeed, input)
+    output = RC4_Console(keySeed, input)
     RC4outputText.config(state=NORMAL)
     RC4outputText.delete("1.0", END)
     RC4outputText.insert(END, bytes_to_txt(output))
