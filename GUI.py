@@ -6,6 +6,7 @@ from Vernam import *
 from Vigenere import *
 from RC4 import *
 from conversor import *
+from ChaCha20 import *
 
 # Main window
 base = Tk()
@@ -34,6 +35,9 @@ MfVigenere.configure(background='#04BF68', foreground='#155939', borderwidth=0, 
 MfConversor = Button(MainFrame, text='Conversor', command=lambda: show('Conversor'))
 MfConversor.place(x=30, y=230)
 MfConversor.configure(background='#04BF68', foreground='#155939', borderwidth=0, activebackground='#232426', pady=5, padx=10, width=10)
+MfChaCha = Button(MainFrame, text='ChaCha20', command=lambda: show('ChaCha'))
+MfChaCha.place(x=30, y=280)
+MfChaCha.configure(background='#04BF68', foreground='#155939', borderwidth=0, activebackground='#232426', pady=5, padx=10, width=10)
 
 AtbashFrame = Frame(base, bg='#232426')
 AtbashFrame.place(x=0, y=0, width=500, height=400)
@@ -243,6 +247,51 @@ CNVClear = Button(ConversorFrame, text='Clear', command=lambda: GUI_Conversor('C
 CNVClear.place(x=410, y=355)
 CNVClear.configure(background='#04BF68', foreground='#155939', borderwidth=0, activebackground='#232426', pady=5, padx=10)
 
+ChaChaFrame = Frame(base, bg='#232426')
+ChaChaFrame.place(x=0, y=0, width=500, height=400)
+ChaChaBar = Canvas(ChaChaFrame, width=500, height=65, bg='#2a2b2d', highlightthickness=0)
+ChaChaBar.place(x=0, y=335)
+ChaChakeyLabel = Label(ChaChaFrame, text="Key:", bg='#232426', fg='#ffffff')
+ChaChakeyLabel.place(x=10, y=10)
+ChaChakey = Entry(ChaChaFrame, width=80, bg='#2a2b2d', fg='#ffffff', highlightthickness=0)
+ChaChakey.place(x=10, y=40)
+ChaChakey.configure(background='#04BF68', foreground='#232426', borderwidth=0)
+ChaChakey.insert(0, '00:01:02:03:04:05:06:07:08:09:0a:0b:0c:0d:0e:0f:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f')
+ChaChacounterLabel = Label(ChaChaFrame, text="Counter:", bg='#232426', fg='#ffffff')
+ChaChacounterLabel.place(x=10, y=70)
+ChaChacounter = Entry(ChaChaFrame, width=10, bg='#2a2b2d', fg='#ffffff', highlightthickness=0)
+ChaChacounter.place(x=10, y=100)
+ChaChacounter.configure(background='#04BF68', foreground='#232426', borderwidth=0)
+ChaChacounter.insert(0, '01:00:00:00')
+ChaChanonceLabel = Label(ChaChaFrame, text="Nonce:", bg='#232426', fg='#ffffff')
+ChaChanonceLabel.place(x=100, y=70)
+ChaChanonce = Entry(ChaChaFrame, width=30, bg='#2a2b2d', fg='#ffffff', highlightthickness=0)
+ChaChanonce.place(x=100, y=100)
+ChaChanonce.configure(background='#04BF68', foreground='#232426', borderwidth=0)
+ChaChanonce.insert(0, '00:00:00:09:00:00:00:4a:00:00:00:00')
+ChaChaplainLabel = Label(ChaChaFrame, text="Input:", bg='#232426', fg='#ffffff')
+ChaChaplainLabel.place(x=10, y=150)
+ChaChaplainText = Text(ChaChaFrame, width=28, height=6, bg='#2a2b2d', fg='#ffffff', highlightthickness=0)
+ChaChaplainText.place(x=10, y=180)
+ChaChaplainText.configure(background='#04BF68', foreground='#232426', borderwidth=0)
+ChaChacipherLabel = Label(ChaChaFrame, text="Output:", bg='#232426', fg='#ffffff')
+ChaChacipherLabel.place(x=260, y=150)
+ChaChacipherText = Text(ChaChaFrame, width=28, height=6, bg='#2a2b2d', fg='#ffffff', highlightthickness=0, state=DISABLED)
+ChaChacipherText.place(x=260, y=180)
+ChaChacipherText.configure(background='#04BF68', foreground='#232426', borderwidth=0)
+ChaChaBack = Button(ChaChaFrame, text='<', command=lambda: show())
+ChaChaBack.place(x=20, y=355)
+ChaChaBack.configure(background='#2A2B2D', foreground='#05ff8a', borderwidth=0, activebackground='#232426', pady=5, padx=10)
+ChaChacipher = Button(ChaChaFrame, text='Cipher text', command=lambda: GUI_ChaCha('Encrypt'))
+ChaChacipher.place(x=70, y=355)
+ChaChacipher.configure(background='#04BF68', foreground='#155939', borderwidth=0, activebackground='#232426', pady=5, padx=10)
+ChaChadecipher = Button(ChaChaFrame, text='Decipher text', command=lambda: GUI_ChaCha('Decrypt'))
+ChaChadecipher.place(x=160, y=355)
+ChaChadecipher.configure(background='#04BF68', foreground='#155939', borderwidth=0, activebackground='#232426', pady=5, padx=10)
+ChaChaClear = Button(ChaChaFrame, text='Clear', command=lambda: GUI_ChaCha('Clear'))
+ChaChaClear.place(x=410, y=355)
+ChaChaClear.configure(background='#04BF68', foreground='#155939', borderwidth=0, activebackground='#232426', pady=5, padx=10)
+
 # Show frame
 def show(page = 'Home'):
     if page == 'Atbash':
@@ -255,6 +304,8 @@ def show(page = 'Home'):
         RC4Frame.lift()
     elif page == 'Conversor':
         ConversorFrame.lift()
+    elif page == 'ChaCha':
+        ChaChaFrame.lift()
     elif page == 'Home':
         MainFrame.lift()
 
@@ -444,7 +495,7 @@ def GUI_RC4(mode):
         RC4outputBytes.delete("1.0", END)
         RC4outputBytes.config(state=DISABLED)
         return
-    output = RC4_Console(keySeed, input)
+    output = RC4(keySeed, input)
     RC4outputText.config(state=NORMAL)
     RC4outputText.delete("1.0", END)
     RC4outputText.insert(END, bytes_to_txt(output))
@@ -477,6 +528,67 @@ def GUI_Conversor(mode):
         CNVoutputText.config(state=DISABLED)
         return
     return
+
+def GUI_ChaCha(mode):
+    if mode == 'clear':
+        ChaChakey.delete(0, END)
+        ChaChakey.insert(0, '00:01:02:03:04:05:06:07:08:09:0a:0b:0c:0d:0e:0f:10:11:12:13:14:15:16:17:18:19:1a:1b:1c:1d:1e:1f')
+        ChaChacounter.delete(0, END)
+        ChaChacounter.insert(0, '01:00:00:00')
+        ChaChanonce.delete(0, END)
+        ChaChanonce.insert(0, '00:00:00:09:00:00:00:4a:00:00:00:00')
+        ChaChaplainText.delete("1.0", END)
+        ChaChacipherText.config(state=NORMAL)
+        ChaChacipherText.delete("1.0", END)
+        ChaChacipherText.config(state=DISABLED)
+        return
+    else:
+        key_ = ChaChakey.get()
+        key_ = key_.replace(':', '')
+        key_ = key_.replace(' ', '')
+        key_ = [key_[i:i+8] for i in range(0, len(key_), 8)]
+        for i in range(len(key_)):
+            aux = []
+            for j in range(8, 0, -2):
+                aux.append(key_[i][j - 2:j])
+            key_[i] = int("".join(aux), 16)
+        # counter
+        counter_ = ChaChacounter.get()
+        counter_ = counter_.replace(':', '')
+        counter_ = counter_.replace(' ', '')
+        aux = []
+        for i in range(8, 0, -2):
+            aux.append(counter_[i - 2:i])
+        counter_ = int("".join(aux), 16)
+        # nonce
+        nonce_ = ChaChanonce.get()
+        nonce_ = nonce_.replace(':', '')
+        nonce_ = nonce_.replace(' ', '')
+        nonce_ = [nonce_[i:i+8] for i in range(0, len(nonce_), 8)]
+        for i in range(len(nonce_)):
+            aux = []
+            for j in range(8, 0, -2):
+                aux.append(nonce_[i][j - 2:j])
+            nonce_[i] = int("".join(aux), 16)
+        # plaintext
+        plaintext_ = ChaChaplainText.get("1.0", END)
+        if mode == 'Encrypt':
+            # Encrypt
+            output = chacha20_encrypt(key_, counter_, nonce_, plaintext_)
+            ChaChacipherText.config(state=NORMAL)
+            ChaChacipherText.delete("1.0", END)
+            ChaChacipherText.insert(END, output)
+            ChaChacipherText.config(state=DISABLED)
+        elif mode == 'Decrypt':
+            # Decrypt
+            plaintext_ = plaintext_.split(' ')
+            plaintext_ = [int(i) for i in plaintext_]
+            output = chacha20_decrypt(key_, counter_, nonce_, plaintext_)
+            ChaChacipherText.config(state=NORMAL)
+            ChaChacipherText.delete("1.0", END)
+            ChaChacipherText.insert(END, output)
+            ChaChacipherText.config(state=DISABLED)
+        return
 
 MainFrame.lift()
 base.mainloop()
